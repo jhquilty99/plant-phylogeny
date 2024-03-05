@@ -6,14 +6,14 @@ import matplotlib.pyplot as plt
 def find_common_ancestor(data_frame, ordering): 
     old_col = 'EMPTY'
     for col in ordering:
-        unique = data_frame[col].unique()
-        if len(unique) > 1:
-            if old_col != 'EMPTY': 
-                return old_col, old_value, unique, col
-            else:
-                return None, None, None, None
-        old_col = col
-        old_value = data_frame[col].unique()[0]
+        if col in data_frame.columns:
+            unique = data_frame[col].unique()
+            if len(unique) > 1:
+                if old_col != 'EMPTY': 
+                    return old_col, old_value, unique, col
+            old_col = col
+            old_value = data_frame[col].unique()[0]
+    return None, None, None, None
 
 
 def add_descendant_edge_recursion(graph, data_frame, ordering):
