@@ -2,3 +2,6 @@ pandas
 networkx
 matplotlib
 ipykernel
+streamlit
+flake8
+pytest

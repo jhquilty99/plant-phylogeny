@@ -1,6 +1,4 @@
-import pandas as pd
 import networkx as nx
-import matplotlib.pyplot as plt
 
 
 def find_common_ancestor(data_frame, ordering): 
@@ -24,3 +22,24 @@ def add_descendant_edge_recursion(graph, data_frame, ordering):
             descendant_df = data_frame[data_frame[descendant_level] == descendant]
             add_descendant_edge_recursion(graph, descendant_df, ordering)
     return(graph)
+
+
+def visualize_genetic_relationships(data_frame, ordering, ax):
+    """
+    Visualizes genetic relationships between species as clades using Divisive Hierarchical Clustering.
+
+    Parameters:
+    - data_frame: pandas DataFrame with hierarchical levels of different species.
+
+    Returns:
+    - None (displays the dendrogram plot).
+    """
+    
+    G = nx.DiGraph() 
+
+    G = add_descendant_edge_recursion(G, data_frame, ordering)
+    # Plot the dendrogram
+    pos = nx.spring_layout(G)
+    #pos = nx.nx_agraph.graphviz_layout(G, prog="twopi", args="")
+    #ax.margins(0.5, 0.5)
+    nx.draw(G, pos, ax, with_labels=True, font_weight='bold', node_size=700, node_color='skyblue', font_size=12)
