@@ -22,6 +22,23 @@ DATA['Clade 3'] = 'Eudicots'
 
 ORDERING_DATA = ['Kingdom','Clade 1','Clade 2','Clade 3','Clade 4','Order','Family','Subfamily','Genus','Species','Common Name']
 
+COLORING_DATA = {
+    'Kingdom':'#ffffcc',
+    'Clade 1':'#ffffcc',
+    'Clade 2':'#ffffcc',
+    'Clade 3':'#d9f0a3',
+    'Clade 4':'#addd8e',
+    'Order':'#78c679',
+    'Family':'#41ab5d',
+    'Subfamily':'#238443',
+    'Genus':'#005a32',
+    'Species':'#005030',
+    'Common Name':'#000000'
+}
+
+# Rearrange data to be in descending complexity
+DATA = DATA[ORDERING_DATA]
+
 options = st.multiselect(
     'Which plants would you like to visualize',
     ALL_OPTIONS,
@@ -33,13 +50,14 @@ for i in options:
     st.write('You selected:', i)
 
 new_data = DATA[DATA['Common Name'].isin(options)]
+new_data.dropna(how='all', axis=1, inplace=True) 
 
 
 st.dataframe(new_data)
 
 fig, ax = plt.subplots()
 
-tree_constructor.visualize_genetic_relationships(new_data, ORDERING_DATA, ax)
+tree_constructor.visualize_genetic_relationships(new_data, ORDERING_DATA, ax, COLORING_DATA)
 
 st.pyplot(fig)
 
